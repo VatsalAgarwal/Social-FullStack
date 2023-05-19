@@ -3,11 +3,11 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import helmet from "helmet";
 import cors from "cors";
 import dotenv from "dotenv";
 import multer from "multer";
 import morgan from "morgan";
-import helmet from "helmet";
 import path from "path";
 import { fileURLToPath } from "url";
 import { appendFile } from "fs";
@@ -43,10 +43,11 @@ const upload = multer({ storage });
 
 const PORT = process.env.PORT || 6001
 
+mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true, 
     useUnifiedTopology: true,
-});then(() => {
+}).then(() => {
     app.listen(PORT, () => console.log(`Listening at ${PORT}`));
 })
 .catch((error) => console.log("Failed to connect."));
