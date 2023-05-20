@@ -8,12 +8,12 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
+//dotenv.config();
 
 /* CONFIG */
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config();
 const app = express();
 app.use(express.json);
 app.use(helmet());
@@ -21,6 +21,8 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin"}));
 app.use(bodyParser.json({ limit: "30mb", extended: true}));
 app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
+dotenv.config({path:__dirname+'/.env'});
+
 
 /* FILE STORAGE */
 
@@ -37,11 +39,14 @@ const upload = multer({ storage });
 /* MONGOOSE */
 
 const PORT = process.env.PORT || 6001;
-mongoose.connect(process.env.MONGO_URL, {
-    useNewUrlParse: true,
+mongoose
+    .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
     useUnifiedTopology: true,
-}).then(() => {
+})
+.then(() => {
     app.listen(PORT, () => console.log(`Listening at ${PORT}`));
-}).catch((error) => console.log(`${error} could not connect, bruv.`));
+})
+.catch((error) => console.log(`${error} could not connect, bruv.`));
 
 
