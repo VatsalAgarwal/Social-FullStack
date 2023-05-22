@@ -8,7 +8,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-//dotenv.config();
+import authRouters from "./routes/auth.js"
+import { register } from "./controllers/auth.js";
 
 /* CONFIG */
 
@@ -36,6 +37,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+/*ROUTES WITH FILES*/
+app.post("/auth/register", upload.single("picture"), register);
+
 /* MONGOOSE */
 
 const PORT = process.env.PORT || 6001;
@@ -48,5 +52,3 @@ mongoose
     app.listen(PORT, () => console.log(`Listening at ${PORT}`));
 })
 .catch((error) => console.log(`${error} could not connect, bruv.`));
-
-
