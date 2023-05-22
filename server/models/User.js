@@ -18,5 +18,27 @@ const UserSchema = new mongoose.Schema({
         require: true,
         unique: true,
         max: 50,
-    }
-})
+    },
+    password: {
+        type: String,
+        require: true,
+        min: 5,
+    },
+    picturePath: {
+        type: String,
+        default: "",
+    },
+    friends: {
+        type: Array,
+        default: [],
+    },
+    location: String,
+    occupation: String, 
+    viewedProfile: Number,
+    impressions: Number,
+}, { timestamps: true }
+);
+
+const User = mongoose.model("User", UserSchema);
+
+export default User;
